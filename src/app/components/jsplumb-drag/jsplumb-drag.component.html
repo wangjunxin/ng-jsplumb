@@ -1,0 +1,68 @@
+<div class="fullscreen-container" id="fullscreen-container">
+	<div style="width: 206px;overflow: hidden;height: 100%;">
+		<app-plan-list [planList]="planList" [projectId]="projectId" (changePlan)="changeThePlan($event)"></app-plan-list>
+		<app-node-list (toggleAfter)="newItemDragable($event)" style="height: 100%;"></app-node-list>
+	</div>
+	
+	<mat-drawer-container autosize class="drawer-container-width">
+	  	<mat-drawer #nodeDetail mode="side" position="end" class="config-container" [(opened)]="isOpen">
+			<app-node-config [(config)]="configList" [tableList]="readableTable" [projectId]="projectId" [dagData]="dagDate" (configChange)="configItemChange($event)"></app-node-config>
+	  	</mat-drawer>
+
+	  	<mat-drawer-content style="position: static;height: 100%;">
+	  		<div class="empty-experiment-container" *ngIf="isEmpty"></div>
+	  		<div style="position: relative;height: 100%;" (click)="hiddenThePlanList()">
+	  			<div class="experiment-file-container">
+	  				<div class="experiment-name-container text-ellipsis" matTooltip="{{planDetail && planDetail.name}}">{{planDetail && planDetail.name}}</div>
+	  				<div class="experiment-button-container">
+	  					<span class="iconfont icon-run" (click)="runTheDag()" *ngIf="!runningState"> 运行</span>
+	  					<span class="iconfont icon-run" (click)="runTheDagWithForce()" *ngIf="!runningState"> 全部运行</span>
+	  					<span class="iconfont icon-stop" *ngIf="runningState" (click)="stopTheDag()"> 停止</span>
+	  					<span class="iconfont icon-save" (click)="saveThePlan()" *ngIf="!runningState"> 保存</span>
+	  		<!-- 			<span class="iconfont icon-save_as"> 另存为</span>
+	  					<span class="iconfont icon-version"> 版本</span>
+	  					<span class="iconfont icon-state"> 状态</span>
+	  					<span class="iconfont icon-export"> 导出</span> -->
+	  				</div>
+	  			</div>
+		  		<div id="experiment-container" class="experiment-container" (click)="showThePlanConfig()">
+					<div class="experiment-running-overlay" *ngIf="runningState"></div>
+					<div class="experiment-drag-container" id="canvas">
+					  <div *ngFor="let item of dagDate && dagDate.nodes;let i = index">
+					    <div class="nodeInstance" 
+					    [ngStyle]="{'left.px': item.position[0],
+					    			'top.px': item.position[1], 
+					    			'position': 'absolute', 
+					    			'width.px': nodeInstanceSize[0], 
+					    			'height.px': nodeInstanceSize[1]}" 
+					    	id="{{item.uuid}}" (click)="$event.stopPropagation();selectTheNode(item, i);nodeDetail.open()"
+					    	(contextmenu)="nodeContextMenu(item, i, $event)">
+					    	<div class="nodeInstance-detail">
+						    	<span class="iconfont nodeInstance-icon {{item.iconName || 'icon-code'}}"></span>
+						    	<span class="nodeInstance-name" matTooltip="节点名称:{{item.name}}">{{item.name}}</span>
+						    	<span class="iconfont nodeInstance-state-icon" *ngIf="item.status !== 2" matTooltip="{{item.msg}}"
+						    	[ngClass]="item.status === 3 ? 'icon-state-right' : item.status === 4 ? 'icon-state-error' : item.status === 0 ? 'icon-state-warning' : ''"></span>
+						    	<!-- <mat-progress-spinner [value]="item.progress" [strokeWidth]="3" [diameter]="25" *ngIf="item.status === 2 && item.progress !== 100">
+							    </mat-progress-spinner> -->
+							    <mat-spinner [strokeWidth]="3" [diameter]="20" *ngIf="item.status === 2"></mat-spinner>
+					    	</div>
+					    </div>
+					  </div>
+					</div>
+				</div>
+				<div class="experiment-control-container">
+					<span class="iconfont icon-zoom_in" matTooltip="放大" (click)="zoomIn()"></span>
+					<span class="iconfont icon-zoom_out" matTooltip="缩小" (click)="zoomOut()"></span>
+					<span class="iconfont icon-default_scale" matTooltip="原比例" (click)="zoomReset()"></span>
+					<span class="iconfont icon-fullscreen" (click)="fullScreen()" matTooltip="全屏" *ngIf="!fullScreenState"></span>
+					<span class="iconfont icon-exit-fullscreen" (click)="exitFull()" matTooltip="退出全屏" *ngIf="fullScreenState"></span>
+				</div>
+				<div (click)="nodeDetail.close()" class="hidden-node-config" *ngIf="isOpen">
+					<span class="iconfont icon-menu1"></span>
+				</div>
+	  		</div>
+	  	</mat-drawer-content>
+	</mat-drawer-container>
+	<app-context-menu [position]="contextMenuPos" [contextMenuList]="contextMenuList" (clickContextItem)="contextMenuItem($event)"></app-context-menu>
+</div>
+

@@ -1,0 +1,135 @@
+<div class="nodeconfig-container">
+    <div class="nodeconfig-header-container">
+        <span *ngFor="let items of config && config.template;let index = index"
+        (click)="tabIndex = index"
+        class="nodeconfig-header-item"
+        [ngClass]="{'nodeconfig-header-active': index == tabIndex && config.template.length > 1}">{{items.tabName}}</span>
+    </div>
+    <div class="nodeconfig-items-container">
+        <div *ngFor="let items of config && config.template;let index = index">
+            <div *ngIf="index == tabIndex">
+                <div *ngFor="let item of items.config">
+                    <!-- string  -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'string'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <span class="item-config-des">{{item.value || config && config.config && config.config[item.configKey]}}</span>
+                    </div>
+                    <!-- date -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'date'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <span class="item-config-des">{{(item.value | date:'yyyy-MM-dd HH:mm:ss') || (config && config.config && config.config[item.configKey] | date:'yyyy-MM-dd HH:mm:ss')}}</span>
+                    </div>
+                    <!-- input -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'input'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <span class="item-config-des">{{item.inputDes}}</span>
+                        <input type="text" #inputValue [ngClass]="{'form-control': true, 'error-input-border': item.errMsg}" [(ngModel)]="config.config[item.configKey]" (ngModelChange)="checkStringInput(inputValue.value, item)" *ngIf="config.config[item.availableKey] === item.availableValue">
+                        <input type="text" class="form-control input-disabled" disabled="" *ngIf="config.config[item.availableKey] !== item.availableValue">
+                        <span class="err-message-tip" *ngIf="config.config[item.availableKey] === item.availableValue">{{item.errMsg}}</span>
+                    </div>
+                    <!-- int input -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'int'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <span class="nodeconfig-item-des">{{item.inputDes}}</span>
+                        <div style="position: relative;">
+                            <input type="number" [ngStyle]="{'padding-right': item.company ? '20px' : '6px'}" [ngClass]="{'form-control': true, 'error-input-border': item.errMsg}" #inputValue [(ngModel)]="config.config[item.configKey]" min="{{item.min || '1'}}" max="{{item.max || '65535'}}" step="{{item.step || '1'}}" (ngModelChange)="checkIntNumber(inputValue.value, item)" *ngIf="config.config[item.availableKey] === item.availableValue">
+                            <input class="form-control input-disabled" type="text" disabled="" *ngIf="config.config[item.availableKey] !== item.availableValue">
+                            <span class="input-company" *ngIf="item.company">{{item.company}}</span>
+                        </div>
+                        <span class="err-message-tip" *ngIf="config.config[item.availableKey] === item.availableValue">{{item.errMsg}}</span>
+                    </div>
+                    <!-- select -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'select'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <select class="form-control" [(ngModel)]="config.config[item.configKey]">
+                            <option *ngFor="let option of item.options" value="{{option && option.value}}">{{option && option.name}}</option>
+                        </select>
+                    </div>
+                    <!-- radio -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'radio'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <div>
+                            <mat-radio-group [(ngModel)]="item.value" (change)="updateOption()" class="flex-column-direction">
+                                <mat-radio-button value="1" color="primary">Option 1</mat-radio-button>
+                                <mat-radio-button value="2" color="primary">Option 2</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <!-- openModel  -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'openModel'">
+                        <div *ngIf="item.configKey === 'feature'" class="open-model" (click)="openFeatureModel(config.config, '特征配置', item)">
+                            {{item.name}}&nbsp;&nbsp;<span class="iconfont icon-fullscreen" matTooltip="{{item.name}}"></span>
+                        </div>
+                    </div>
+                    <!-- select schema -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'selectSchema'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <span class="item-config-des">{{item.inputDes}}</span>
+                        <button mat-stroked-button color="primary" style="width: 100%;" (click)="selectSchema(item)" class="select-schema-button" [disabled]="config.config[item.availableKey] !== item.availableValue">
+                            {{item.schemaType === 'radio' ? config.config[item.configKey] || '选择字段' : config.config[item.configKey].length > 0 ? config.config[item.configKey].length > 1 ? config.config[item.configKey][0] + '等' + config.config[item.configKey].length + '项' : config.config[item.configKey][0] : '选择字段'}}
+                        </button>
+                    </div>
+                    <!-- table -->
+                    <div class="nodeconfig-item-container nodeconfig-table" *ngIf="item.type === 'table'" style="overflow-x: auto;">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <table mat-table [dataSource]="tableData" class="table-container">
+                            <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{tableHeader[column]}} </th>
+                                <td mat-cell *matCellDef="let element" style="max-width: 100px;text-align: center;height: 32px;">
+                                    <span matTooltip="{{element[column]}}" style="width: 100%;display: block;" class="text-ellipsis">{{element[column]}}</span>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+                        </table>
+                    </div>
+                    <!-- autocomplete -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'autocomplete'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <mat-form-field class="nodeconfig-item-fullwidth">
+                            <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="item.value" class="blurInput">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="fetchTableDetail(item.value, config)">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option" class="custom-autocomplete-item">
+                                    {{option.alias}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <!-- sql input -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'sql'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <div class="sql-edit-container">
+                            <ngx-codemirror #codeEditor [(ngModel)]="config.config[item.configKey]" [options]="dagCofigService.codemirrorReadOnly" (click)="openSqlModel(config.config)"></ngx-codemirror>
+                        </div>
+                    </div>
+                    <!-- file -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'file'">
+                        <input #filemodel type="file" id="files" multiple [(ngModel)]="file" class="form-control">
+                        <button mat-button (click)="readFile(filemodel)">read</button>
+                    </div>
+                    <!-- textarea -->
+                    <div class="nodeconfig-item-container" *ngIf="item.type === 'textarea'">
+                        <span class="nodeconfig-item-title">{{item.name}}</span>
+                        <textarea cols="30" rows="7" [(ngModel)]="config.config[item.configKey]" class="form-control" style="font-size: 12px;"></textarea>
+                    </div>
+                    <!-- input radio -->
+                    <div class="nodeconfig-radio-container" *ngIf="item.type === 'inputRadio'">
+                        <label class="nodeconfig-radio-input">
+                            <input [(ngModel)]="config.config[item.configKey]" 
+                            [value]="item.check" type="radio" name="{{item.radioName}}" #{{item.radioName}}="ngModel"
+                            (ngModelChange)="configItemChange()">
+                            <span style="margin-left: 10px;">{{item.name}}</span>
+                        </label>
+                    </div>
+                    <!-- checkbox -->
+                    <div class="nodeconfig-checkbox-container" *ngIf="item.type === 'checkbox'">
+                        <label class="checkbox-container"><input type="checkbox" [(ngModel)]="config.config[item.configKey]">
+                            <span style="margin-left: 10px;">{{item.name}}</span>
+                        </label>
+                        <span class="item-config-des">{{item.inputDes}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

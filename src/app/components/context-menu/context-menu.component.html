@@ -1,0 +1,7 @@
+<div *ngIf="showContext" class="context-menu-container" [ngStyle]="{'left.px': position && position[0], 'top.px': position && position[1]}">
+	<span *ngFor="let item of contextMenuList">
+		<span *ngIf="item.value !== 'dividingLine'" class="context-menu-item" (click)="cilckTheItem(item)" [ngClass]="{'item-disabled': item.disabled}">{{item.value}}</span>
+		<span *ngIf="item.value === 'dividingLine'" class="dividing-line"></span>
+	</span>
+</div>
+

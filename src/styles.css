@@ -1,0 +1,413 @@
+/* You can add global styles to this file, and also import other style files */
+/*@import "~@angular/material/prebuilt-themes/indigo-pink.css";*/
+@import "assets/css/indigo-pink.css";
+@import "~codemirror/lib/codemirror.css";
+@import "~codemirror/theme/material.css";
+@import "~codemirror/addon/hint/show-hint.css";
+/*the gloal css for jsplumb*/
+ 
+.full-windows {
+    height: 100%;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.half-width {
+    width: 50% !important;
+}
+
+.CodeMirror {
+    height: 100%;
+}
+
+.CodeMirror-hints {
+    z-index: 9999;
+}
+
+.tooltip-inner {
+    max-width: 400px !important;
+    background-color: rgba(97, 97, 97, 0.9) !important;
+    font-size: 10px !important;
+    border-radius: 4px !important;
+    max-width: 250px !important;
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+.arrow {
+    display: none !important;
+}
+
+.show-all-tooltip {
+    word-break: break-all;
+}
+
+.dragActive {
+    border: 1px dotted green;
+}
+
+.dropHover {
+    border: 1px dotted red;
+}
+
+.experiment-drag-container {
+    width: 100%;
+    height: 100%;
+}
+
+.experiment-drag-container .jtk-hover {
+    z-index: 22;
+}
+
+.experiment-drag-container .active svg circle{
+    fill: rgba(26, 161, 241, 0.8);
+    stroke: #1AA1F1;
+}
+
+.jtk-endpoint-full svg circle, .can-connect svg circle {
+    stroke: #7F8081 !important;
+    fill: transparent !important;
+}
+.experiment-drag-container .hover svg circle{
+    fill: #27ae60 !important;
+    stroke: #27ae60 !important;
+}
+
+.experiment-drag-container .jtk-endpoint-connected {
+    border: none !important;
+}
+
+.experiment-drag-container .jtk-connector {
+    z-index: 4;
+}
+
+.experiment-drag-container .jtk-endpoint {
+    z-index: 21;
+    cursor: crosshair;
+}
+
+.experiment-drag-container .aLabel {
+    background-color: white;
+    padding: 0.4em;
+    font: 12px sans-serif;
+    color: #444;
+    z-index: 21;
+    border: 1px dotted gray;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.experiment-drag-container .aLabel.jtk-hover {
+    background-color: #5C96BC;
+    color: white;
+    border: 1px solid white;
+}
+
+.window.jtk-connected {
+    border: 1px solid green;
+}
+
+.jtk-drag {
+    border: 2px solid #0096F0 !important;
+}
+
+path, .jtk-endpoint {
+    cursor: pointer;
+}
+
+.jtk-overlay {
+    background-color: transparent;
+}
+
+.link-runing {
+    stroke: rgba(57, 202, 116, .8);
+    stroke-width: 2px;
+    stroke-dasharray: 5;
+    stroke-dashoffset: 0;
+    -webkit-animation: dash 30s infinite linear;
+    -o-animation: dash 30s infinite linear;
+    animation: dash 30s infinite linear;
+}
+
+@-webkit-keyframes dash {
+    to {
+        stroke-dashoffset: 1000;
+    }
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 1000;
+    }
+}
+
+/*other gloabl css*/
+.add-item {
+    border: 1px solid #0096F0;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    opacity: 0.8;
+    width: 180px;
+    height: 36px;
+    line-height: 30px;
+    cursor: pointer;
+    text-align: center;
+    z-index: 20;
+    position: absolute;
+    color: #a7a6a6;
+    font-size: 12px;
+}
+
+.can-connect {
+    border: none !important;
+}
+
+/*custom gloabl css*/
+.flex-column-direction {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.full-block {
+    display: block;
+    width: 100%;
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-hover:hover {
+    color: #50aff9;
+    cursor: pointer;
+}
+
+.icon-disabled {
+    color: #eee;
+    cursor: not-allowed;
+}
+
+.text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/*custom material css*/
+.text-center .mat-sort-header-container {
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.wharehouse-container .mat-tab-body-wrapper, .wharehouse-container .mat-tab-body  {
+    height: 100%;
+}
+
+.sql-body-container .mat-expansion-panel-body{
+    padding: 0;
+}
+
+/*table css*/
+table {
+    min-width: 100%;
+    height: 100%;
+}
+
+tr.mat-footer-row, tr.mat-row {
+    height: 30px !important;
+}
+
+tr:nth-of-type(even) {
+    background-color: #fafdff;
+}
+
+.mat-header-row {
+    background-color: #f3f7fb;
+}
+
+.nodeconfig-item-container tr.mat-header-row{
+    height: 32px!important;
+}
+
+table thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+table tbody {
+    display: block;
+    overflow-y: scroll;
+}
+
+.file-table-container table tbody {
+    height: calc(100% - 65px);
+}
+
+.data-management-table table tbody {
+    height: calc(100% - 75px);
+}
+
+.file-config-table table tbody {
+    height: calc(100% - 57px);
+}
+
+.data-table table tbody {
+    height: calc(100% - 60px);
+}
+
+.wharehouse-item-container table tbody {
+    height: calc(100% - 80px);
+}
+
+.wharehouse-item-container table {
+    height: 90%;
+}
+
+.data-wharehouse-container table {
+    height: 90%;
+}
+
+.data-wharehouse-container table tbody {
+    height: calc(100% - 60px);
+}
+
+.nodeconfig-table table tbody {
+    height: 300px;
+}
+
+.feature-left-container table tbody {
+    height: 390px;
+}
+
+.feature-item table tbody {
+    overflow-y: auto;
+}
+
+/*gloabl dialog css*/
+.mat-dialog-container {
+    padding: 0 !important;
+    position: relative;
+    overflow: hidden !important;
+}
+
+.mat-dialog-content {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.dialog-header {
+    height: 50px;
+    border-bottom: 1px solid #ededed;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dialog-title {
+    color: #313131;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.dialog-title:before {
+    content: ' ';
+    border-left: 4px solid #2196f3;
+    margin-right: 14px;
+}
+
+.dialog-header .icon-close {
+    color: #4d4d4d;
+}
+
+.dialog-fotter {
+    position: absolute;
+    bottom: 0;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 50px;
+    border-top: 1px solid #ededed;
+    background-color: #f9f9f9;
+}
+
+.dialog-fotter button {
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px;
+}
+
+/*custom snackbar css*/
+.danger-snackbar {
+    background-color: #f44336;
+}
+
+.success-snackbar {
+    background-color: #27ae60;
+}
+
+.warning-snackbar {
+    background-color: #f39c12;
+}
+
+.primary-snackbar {
+    background-color: #2980b9;
+}
+
+.schema-radio label{
+  margin-bottom: 0!important;
+}
+
+.wharehouse-container .mat-tab-disabled{
+    position: absolute;
+    right: 0;
+    opacity: 1;
+}
+
+/*兼容低版本浏览器样式*/
+.wharehouse-container .mat-tab-body.mat-tab-body-active{
+    position: absolute;
+}
+
+
+.nodeconfig-item-container .mat-form-field-infix {
+    border: 1px solid #b0b0b0;
+    height: 26px;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.nodeconfig-item-container .mat-form-field-underline {
+    height: 0px !important;
+}
+.nodeconfig-item-container .mat-focused{
+    background-color: rgba(0,0,0,0)!important;
+}
+.nodeconfig-item-container .mat-input-element{
+    height: 26px;
+    line-height: 26px;
+}

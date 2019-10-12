@@ -1,0 +1,42 @@
+<div class="node-container">
+	<div class="node-list-search">
+		<span class="iconfont icon-search node-search-icon" *ngIf="!filter"></span>
+		<input type="text" placeholder="组件搜索" class="node-search-input" [(ngModel)]="filter" (keyup)="filtNodeList()">
+	</div>
+	<div class="node-list-container">
+		<div *ngFor="let items of nodeList">
+			<div class="node-list-folder" (click)="toggleItem(items)">
+				<span [ngClass]="{'iconfont': true, 'icon-triangle-right': !items.isShow, 'icon-triangle-down-copy': items.isShow, 'triangle-icon': true}"></span>
+				<span class="iconfont icon-folder-close folder-icon" *ngIf="!items.isShow"></span>
+				<span class="iconfont icon-folder-open folder-icon" *ngIf="items.isShow"></span>
+				<span>{{items.folderName}}</span>
+			</div>
+			<div class="flex-column-direction" *ngIf="items.isShow">
+				<span *ngFor="let item of items.nodeList">
+					<div class="node-folder-secondary" (click)="toggleItem(item)" *ngIf="item.folderName">
+						<span [ngClass]="{'iconfont': true, 'icon-triangle-right': !item.isShow, 'icon-triangle-down-copy': item.isShow, 'triangle-icon': true}"></span>
+						<span class="iconfont icon-folder-close folder-icon" *ngIf="!item.isShow"></span>
+						<span class="iconfont icon-folder-open folder-icon" *ngIf="item.isShow"></span>
+						<span>{{item.folderName}}</span>
+					</div>
+					<div class="flex-column-direction" *ngIf="item.isShow">
+						<span *ngFor="let it of item.nodeList" id="{{it.id}}" 
+						[ngClass]="{'newNodeId': it.id ? true : false, 'text-ellipsis': true, 'node-item-disabled': it.id ? false : true, 'node-item-second': true}">
+							<span class="text-ellipsis" matTooltip="{{it.name}}">
+								<span class="iconfont node-iconfont {{it.icon}}"></span>
+								<span class="node-name">{{it.name}}</span>
+							</span>
+						</span>
+					</div>
+					<div [ngClass]="{'newNodeId': item.id ? true : false, 'text-ellipsis': true, 'node-item-disabled': item.id ? false : true, 'node-item-first': true}" 
+					*ngIf="!item.folderName" id="{{item.id}}">
+						<span class="newNodeItem" matTooltip="{{item.name}}">
+							<span class="iconfont node-iconfont {{item.icon}}"></span>
+							<span class="node-name">{{item.name}}</span>
+						</span>
+					</div>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,86 @@
+.top-banner-container {
+    background-color: #282D34;
+    display: flex;
+}
+
+.icon-index-container {
+    display: inline-block;
+    height: 70px;
+    width: 75px;
+    background-color: #fb6152;
+    color: #fff;
+    font-size: 40px;
+    line-height: 70px;
+    text-align: center;
+}
+
+.bsfit-img-container {
+    display: inline-block;
+    height: 70px;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.project-title {
+    font-size: 18px;
+    line-height: 70px;
+    font-family: serif;
+    margin-left: 20px;
+    color: #fff;
+}
+
+.header-menu-container {
+	position: absolute;
+	left: 75px;
+    height: 70px;
+    width: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: white;
+    overflow : hidden;
+    display: flex;
+    align-items: center;
+}
+
+.header-menu-show {
+	width: calc(100% - 75px);
+	transition: width 1s;
+}
+
+.header-menu-hidden {
+	width: 0;
+	transition: width 1s;
+}
+
+.menu-item-container .iconfont{
+	font-size: 22px;
+}
+.menu-item-container{
+	padding: 10px 20px;
+	margin-left: 30px;
+	border-radius: 10px;
+	display: flex;
+	min-width: 50px;
+	overflow: hidden;
+	align-items: center;
+	cursor: pointer;
+}
+.menu-item-container:hover{
+	background-color: rgba(255, 255, 255, 0.3);
+}
+.menu-item-title{
+	font-size: 18px;
+	margin-left: 5px;
+}
+.top-banner-userInfo{
+    color: #fff;
+    position: absolute;
+    right: 20px;
+    font-size: 14px;
+    line-height: 70px;
+}
+.top-banner-userInfo span{
+    user-select: none;
+}
+.top-banner-url:hover{
+    cursor: pointer;
+}
