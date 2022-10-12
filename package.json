@@ -31,7 +31,7 @@
     "core-js": "^2.5.4",
     "echarts": "^4.2.0-rc.2",
     "html2canvas": "^1.0.0-alpha.12",
-    "jspdf": "^1.4.1",
+    "jspdf": "^2.5.1",
     "jsplumb": "^2.7.13",
     "ngx-cookie-service": "^2.1.0",
     "ngx-echarts": "^4.0.1",
